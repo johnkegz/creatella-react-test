@@ -2,14 +2,17 @@
 class App extends React.Component{
     constructor(props){
         super(props)
-        this.state={
+        this.initialState = {
             data: [],
+            optionsButton: false,
+            sortType: "Sort"
         }
+        this.state=this.initialState
     }
 
     //Get data
-    getData = () => {
-        fetch("http://localhost:3000/api/products?_page=10&_limit=15")
+    getData = ({page, sortBy}) => {
+        fetch(`http://localhost:3000/api/products?_sort=${sortBy}&_page=${page}&_limit=15}`)
           .then(response => response.json())
           .then(data => {
             this.setState({
@@ -24,10 +27,11 @@ class App extends React.Component{
         const result = data.map(product => this.gridUnits(product)); 
         return result;
       }
+
     //Grid units
     gridUnits = (product) => {
         return (
-        <div className="gridUnit">
+        <div className="gridUnit" key={product.id}>
             <div>
                 <div>{product.face}</div>
                 <div>{product.size}</div>
@@ -37,14 +41,43 @@ class App extends React.Component{
         </div>
         )
     }
+
+    //handle sortButton
+    handleSortButton = () => {
+      return this.setState({
+                optionsButton: !this.state.optionsButton,
+                })
+    }
+
+    //handle handleSort
+    handleSort = (sortType) => {
+      const sortParam = sortType.toLowerCase()
+      const params = {page:1, sortBy:sortParam};
+        this.getData(params)
+      return this.setState({
+        sortType: sortType,
+        optionsButton: !this.state.optionsButton,
+        })
+    }
     
     componentDidMount() {
-        this.getData()
+        const params = {page:10};
+        this.getData(params)
     }
     render(){
-        const { data } = this.state;
+        const { data, optionsButton, sortType } = this.state;
         return (
             <div>
+            <div className="dropDown">
+            <button onClick={this.handleSortButton} className="sortButton">{sortType}</button>
+                <div id="sortOptions" className={optionsButton ? "displaySortOptions" : "hideSortOptions"}>
+                <ul>
+                    <li onClick={() => {this.handleSort("Size")}}>Size</li>
+                    <li onClick={() => {this.handleSort("Price")}}>Price</li>
+                    <li onClick={() => {this.handleSort("Date")}}>Date</li>
+                </ul>
+                </div>
+            </div>
             <div className="productsGrid">
               {this.displayGrid(data)}
             </div>
@@ -56,4 +89,4 @@ class App extends React.Component{
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'));
