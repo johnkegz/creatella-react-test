@@ -74,7 +74,7 @@ class App extends React.Component{
                 <ul>
                     <li onClick={() => {this.handleSort("Size")}}>Size</li>
                     <li onClick={() => {this.handleSort("Price")}}>Price</li>
-                    <li onClick={() => {this.handleSort("Date")}}>Date</li>
+                    <li onClick={() => {this.handleSort("Id")}}>Id</li>
                 </ul>
                 </div>
             </div>
