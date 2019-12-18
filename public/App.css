@@ -1,0 +1,13 @@
+.productsGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2em;
+}
+
+.gridUnit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    min-height: 200px;
+}
