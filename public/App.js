@@ -19,40 +19,73 @@ class App extends React.Component{
               data: data
                 })
             }
-          );
+          )
       }
 
-    //display gird
+    //Display gird
     displayGrid = (data) => {
-        const result = data.map(product => this.gridUnits(product)); 
-        return result;
+        const result = data.map(product => this.gridUnits(product)) 
+        return result
       }
+
+    //Display date
+    displayDate = (date) =>{
+      const dateNow = new Date()
+      const faceDate = new Date(date)
+      const finalYear = dateNow.getFullYear() - faceDate.getFullYear()
+      const finalMonth = dateNow.getMonth() - faceDate.getMonth()
+      const finalDate = dateNow.getDate() - faceDate.getDate()
+      const finalHours = dateNow.getHours() - faceDate.getHours()
+
+      if(finalYear > 0 || finalMonth > 0 || finalDate > 7){
+        return `${faceDate}`
+      }
+      else if(finalDate === 1){
+        return `${finalDate} Day ago`
+      }
+      else if(finalDate !== 0) {
+        return `${finalDate} Days ago`
+      }
+      else if(finalDate === 0){
+        if(finalHours === 0){
+            return `< 1 hour ago`
+        }
+        else if(finalHours === 1){
+          return `${finalHours} hour ago`
+        }
+        else{
+          return `${finalHours} hours ago`
+        }     
+      }
+    }
 
     //Grid units
     gridUnits = (product) => {
         return (
         <div className="gridUnit" key={product.id}>
-            <div>
-                <div>{product.face}</div>
-                <div>{product.size}</div>
-                <div>{product.price}</div>
-                <div>"Product date"</div>
-            </div>
+                <div className="face" style={{fontSize: product.size}}>
+                  <div>{product.face}</div>
+                </div>
+                <div className="productDetails">
+                  <div className="size">Size: {product.size}</div>
+                  <div className="price">Price: ${product.price}</div>
+                  <div className="date">Date: {this.displayDate(product.date)}</div>
+                </div>
         </div>
         )
     }
 
-    //handle sortButton
+    //Handle sortButton
     handleSortButton = () => {
       return this.setState({
                 optionsButton: !this.state.optionsButton,
                 })
     }
 
-    //handle handleSort
+    //Handle handleSort
     handleSort = (sortType) => {
       const sortParam = sortType.toLowerCase()
-      const params = {page:1, sortBy:sortParam};
+      const params = {page:1, sortBy:sortParam}
         this.getData(params)
       return this.setState({
         sortType: sortType,
@@ -61,11 +94,12 @@ class App extends React.Component{
     }
     
     componentDidMount() {
-        const params = {page:10};
+        const params = {page:10}
         this.getData(params)
     }
+
     render(){
-        const { data, optionsButton, sortType } = this.state;
+        const { data, optionsButton, sortType } = this.state
         return (
             <div>
             <div className="dropDown">
@@ -85,8 +119,8 @@ class App extends React.Component{
               <p>Footer</p>
             </footer>
             </div>
-          );
+          )
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'))
