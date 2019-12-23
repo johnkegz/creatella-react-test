@@ -9,6 +9,8 @@ class App extends React.Component {
       page: 1,
       isFetching: false,
       endOfCatalogue: false,
+      counter: 20,
+      images: []
     };
     this.state = this.initialState;
   }
@@ -37,22 +39,36 @@ class App extends React.Component {
 
   //Display gird
   displayGrid = data => {
-    const result = data.map(product => this.gridUnits(product));
+    const result = data.map((product, index) => this.gridUnits(product, index));
     return result;
   };
 
   //Grid units
-  gridUnits = product => {
+  gridUnits = (product, index) => {
     return (
-      <div className='gridUnit' key={product.id}>
+      <div className='gridUnit' key={index}>
         <div className='face' style={{ fontSize: product.size }}>
-          <div>{product.face}</div>
+          <div>
+            {product.imageSourceNumber ? (
+              <img
+                src={`/ads/?r=${product.imageSourceNumber}`}
+                style={{ marginTop: "35px" }}
+                alt='image'
+              />
+            ) : (
+              product.face
+            )}
+          </div>
         </div>
-        <div className='productDetails'>
-          <div className='size'>Size: {product.size}</div>
-          <div className='price'>Price: ${product.price}</div>
-          <div className='date'>Date: {this.displayDate(product.date)}</div>
-        </div>
+        {product.imageSourceNumber ? (
+          ""
+        ) : (
+          <div className='productDetails'>
+            <div className='size'>Size: {product.size}</div>
+            <div className='price'>Price: ${product.price}</div>
+            <div className='date'>Date: {this.displayDate(product.date)}</div>
+          </div>
+        )}
       </div>
     );
   };
@@ -109,7 +125,6 @@ class App extends React.Component {
       threshold: 0
     };
     const observer = new IntersectionObserver(entries => {
-      console.log("herere +++");
       if (entries[0].isIntersecting && this.state.data.length !== 0) {
         if (this.state.isFetching) {
           setTimeout(() => {
@@ -130,6 +145,23 @@ class App extends React.Component {
       data: [...state.data, ...state.newData],
       newData: []
     }));
+
+    //Add advertisement every after 20 products
+    if (this.state.data[this.state.counter] !== "undefined") {
+      const imageNumber = Math.floor(Math.random() * 1000);
+      this.setState(state => {
+        state.data.splice(state.counter, 0, {
+          id: imageNumber,
+          imageSourceNumber: imageNumber
+        });
+
+        return {
+          ...state,
+          counter: state.counter + 21,
+          images: [...state.images, imageNumber]
+        };
+      });
+    }
 
     this.setState(prevState => {
       return {
@@ -167,7 +199,6 @@ class App extends React.Component {
 
   render() {
     const { data, optionsButton, sortType, endOfCatalogue } = this.state;
-    console.log("this.state++++++", this.state);
     return (
       <div>
         <div className='dropDown'>
@@ -204,11 +235,13 @@ class App extends React.Component {
           </div>
         </div>
         {data.length !== 0 ? (
-            <div className='productsGrid'>{this.displayGrid(data)}</div>
-          ) : (
-            <h1 className='glow'>loading ..</h1>
-          )}
-        <div className='footer'>{endOfCatalogue ? "~ end of catalogue ~" : ""}</div>
+          <div className='productsGrid'>{this.displayGrid(data)}</div>
+        ) : (
+          <h1 className='glow'>loading ..</h1>
+        )}
+        <div className='footer'>
+          {endOfCatalogue ? "~ end of catalogue ~" : ""}
+        </div>
       </div>
     );
   }
