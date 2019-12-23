@@ -8,6 +8,9 @@ How can it be tested?
 - Run `npm start` to start the application
 - The product grid will be displayed
 
+Any background context
+- When running the application, you have to be connected to the `internet` because `React` and `ReactDOM` are made available through CDN
+
 
 =====
 
