@@ -1,6 +1,16 @@
 Products Grid
 ====
 
+How can it be tested?
+
+- Clone this repo `git clone https://github.com/johnkegz/creatella-react-test.git`
+- cd into the `creatella-react-test` directory.
+- Run `npm start` to start the application
+- The product grid will be displayed
+
+
+=====
+
 This is an ecommerce site, where you can buy all sorts of ascii faces like `(ノ・∀・)ノ` and `¯_(ツ)_/¯`, in a wide variety of font sizes. The homepage should display a list of products for people to browse.
 
 Please read the instructions and FAQ below before beginning.
