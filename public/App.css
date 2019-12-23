@@ -87,6 +87,14 @@
     min-height: 900px;
     animation: 1s linear infinite alternate slidein;
   }
+
+.glow2 {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    animation: 1s linear infinite alternate slidein;
+  }
+
   @keyframes slidein {
     from { transform: scaleX(0); }
     to   { transform: scaleX(2); }

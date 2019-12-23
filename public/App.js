@@ -109,12 +109,16 @@ class App extends React.Component {
   //Handle handleSort
   handleSort = sortType => {
     const sortParam = sortType.toLowerCase();
-    const params = { page: 1, sortBy: sortParam };
-    this.getData(params);
-    return this.setState({
-      sortType: sortType,
+    this.setState({
+      data: [],
+      newData: [],
+      sortType: sortParam,
       optionsButton: !this.state.optionsButton
     });
+    const params = { page: 1, status: 1, sortBy: sortParam };
+    const params2 = { page: 2, status: 2, sortBy: sortParam };
+    this.getData(params);
+    this.getData(params2);  
   };
 
   // Observe page when scrolling using intersection observer
@@ -192,8 +196,8 @@ class App extends React.Component {
   componentDidMount() {
     const params = { page: 1, status: 1 };
     const params2 = { page: 2, status: 2 };
-    this.getData(params2);
     this.getData(params);
+    this.getData(params2);
     this.observePageOnscroll();
   }
 
@@ -239,6 +243,7 @@ class App extends React.Component {
         ) : (
           <h1 className='glow'>loading ..</h1>
         )}
+        {this.state.isFetching ? <h1 className='glow2'>loading ..</h1> : ""}
         <div className='footer'>
           {endOfCatalogue ? "~ end of catalogue ~" : ""}
         </div>
