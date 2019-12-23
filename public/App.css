@@ -3,7 +3,10 @@
     margin-left: 10%;
     margin-right: 10%;
 }
-
+.container{
+    min-height: 500px;
+    background-color: cadetblue;
+}
 .productsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -70,3 +73,21 @@
 .displaySortOptions ul li:hover {
     background-color: rgba(1,1,1,0.2);
 }
+
+.footer{
+    height: 80px;
+    text-align: center;
+    font-family: sans-serif; 
+    font-size: 20px;
+}
+
+.glow {
+    font-size: 50px;
+    text-align: center;
+    min-height: 900px;
+    animation: 1s linear infinite alternate slidein;
+  }
+  @keyframes slidein {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(2); }
+  }
